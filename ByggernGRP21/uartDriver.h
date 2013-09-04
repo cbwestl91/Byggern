@@ -14,5 +14,4 @@ void UARTinit();
 void UARTtransmit(unsigned char data);
 unsigned char UARTreceive();
 
-
 #endif /* UARTDRIVER_H_ */
