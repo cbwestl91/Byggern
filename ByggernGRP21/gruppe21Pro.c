@@ -9,6 +9,7 @@
 #include <avr/io.h>
 #include "uartDriver.h"
 #include "SRAM.h"
+#include "ADC.h"
 
 int main(void)
 {
@@ -18,10 +19,10 @@ int main(void)
 	fdevopen(UARTtransmit, UARTreceive);
 	
 	//Initialization of SRAM module
-	|MCUCR = (1 << SRE);
-	|SFIOR = (1 << XMM2);
+	MCUCR |= (1 << SRE);
+	SFIOR |= (1 << XMM2);
 	
-	SRAM_test();
+	ADCTest();
 
 
     while(1){
