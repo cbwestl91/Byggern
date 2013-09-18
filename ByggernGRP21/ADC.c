@@ -5,13 +5,12 @@
  *  Author: chriwes
  */ 
 #include <avr/io.h>
+#include <util/delay.h>
 
 void ADCTest(){
 	volatile char *ext_adc = (char *) 0x1400;
 	
-	uint16_t i, werrors, rerrors;
-	werrors = 0;
-	rerrors = 0;
+	uint16_t i;
 	unsigned char testvalue;
 
 	printf("Starting ADC test...\r\n");
@@ -21,7 +20,111 @@ void ADCTest(){
 		ext_adc[i] = testvalue;
 	}
 	printf("ADC test completed");
-	
 }
 
-// 
+char ADC_read(int channel){
+	volatile char *ADCmem = (char *)0x1400;
+
+	ADCmem = 0x03 + channel;
+	
+	//wait for filtering
+	_delay_us(40);
+	
+	char filtered_val = ADCmem;
+	
+	return filtered_val;
+}		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			/*
+			//enable pins as output
+			DDRD |= (1 << PD6) | (1 << PD7);
+			DDRA |= (1 << PA3) | (1 << PA2) | (1 << PA1) | (1 << PA0);
+			
+			//write bit set low to clear out unread filtered data
+			PORTD &= ~(1 << PD6);
+			
+			if (channel == 1){
+				PORTD |= (1 << PD7); // set read bit high
+				PORTA |= ~(1 << PA3) | (1 << PA2) | ~(1 << PA1) | ~(1 << PA0); // MUX input
+				PORTD |= (1 << PD6); // set write bit high
+				
+		
+		
+	switch(channel){
+		case 1:
+			PORTD |= (1 << PD7); // set read bit high
+			PORTA |= ~(1 << PA3) | (1 << PA2) | ~(1 << PA1) | ~(1 << PA0); // MUX input
+			PORTD |= (1 << PD6); // set write bit high
+			
+			//wait for filtering
+			_delay_us(40);
+			
+			ADCmem = (uint8_t *) 0x1400;
+			break;
+		case 2:
+			PORTD |= (1 << PD7); // set read bit high
+			PORTA |= ~(1 << PA3) | (1 << PA2) | ~(1 << PA1) | (1 << PA0); // MUX input
+			PORTD |= (1 << PD6); // set write bit high
+			
+			//wait for filtering
+			_delay_us(40);
+			
+			ADCmem = (uint8_t *) 0x1400;
+			break;
+		
+		case 3:
+			PORTD |= (1 << PD7); // set read bit high
+			PORTA |= ~(1 << PA3) | (1 << PA2) | (1 << PA1) | ~(1 << PA0); // MUX input
+			PORTD |= (1 << PD6); // set write bit high
+			
+			//wait for filtering
+			_delay_us(40);
+			
+			ADCmem = (uint8_t *) 0x1400;
+			break;
+		
+		case 4:
+			PORTD |= (1 << PD7); // set read bit high
+			PORTA |= ~(1 << PA3) | (1 << PA2) | (1 << PA1) | (1 << PA0); // MUX input
+			PORTD |= (1 << PD6); // set write bit high
+			
+			//wait for filtering
+			_delay_us(40);
+			
+			ADCmem = (uint8_t *) 0x1400;
+			break;
+	}
+	
+	return ADCmem;		
+}
+
+
+
+// */
