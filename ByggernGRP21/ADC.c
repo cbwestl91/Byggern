@@ -25,14 +25,13 @@ void ADCTest(){
 char ADC_read(int channel){
 	volatile char *ADCmem = (char *)0x1400;
 
-	ADCmem = 0x03 + channel;
+
+	ADCmem[0] = 0x03 + channel;
 	
 	//wait for filtering
 	_delay_us(40);
 	
-	char filtered_val = ADCmem;
-	
-	return filtered_val;
+	return ADCmem[0];
 }		
 		
 		

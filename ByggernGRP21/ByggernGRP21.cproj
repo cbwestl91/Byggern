@@ -110,6 +110,12 @@
     <Compile Include="gruppe21Pro.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="OLED.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="OLED.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SRAM.c">
       <SubType>compile</SubType>
     </Compile>

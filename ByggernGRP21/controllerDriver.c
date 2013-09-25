@@ -14,42 +14,36 @@
 
 #include <avr/io.h>
 #include "ADC.h"
-
-typedef struct position{
-int x;
-int y;
-};
-
-typedef enum {LEFT, RIGHT, UP, DOWN, NEUTRAL} direction_t;
-
-
-
-
-
+#include "controllerDriver.h"
 
 void autoCal(){
 	// something something works
 	
 }
 
-position_t joystickPos(){ //NB: which channel is which is not known at current time!
-	struct 
+position joystickPos(){ //NB: which channel is which is not known at current time!
+	position current_position;
 
-	position_t.x = ADC_read(1);
-	position_t.y = ADC_read(2);
+	current_position.x = ADC_read(1);
+	current_position.y = ADC_read(2);
 	
-	return position_t;
+	return current_position;
 }
 
-direction_t joystickDir(){
-	/*
-	struct position_t = joystickPos();
+direction joystickDir(){
+	position current_position = joystickPos();
+	direction current_direction;
 	
-	if(position_t.x < position_t.y && ){
-		direction_t = 
-		
+	if ((double)current_position.x > 140){
+		current_direction = RIGHT;
 	}
-	*/
+	else if((double)current_position.x < 120){
+		current_direction = LEFT;
+	}
+	else{
+		current_direction = NEUTRAL;
+	}
+	return current_direction;
 }
 
 //voltage angle relationship: MIN: 0.44V, MAX: 2.54V, MID: 1.7V
