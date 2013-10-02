@@ -107,6 +107,9 @@
     <Compile Include="controllerDriver.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="font_8x8.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="gruppe21Pro.c">
       <SubType>compile</SubType>
     </Compile>

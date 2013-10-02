@@ -18,8 +18,12 @@ typedef enum{LEFT, RIGHT, UP, DOWN, NEUTRAL}direction;
 
 
 
-
+// Returns the position of the joystick as a struct
+// contains x and y value
 position joystickPos();
+
+
+// Returns direction of the joystick as an enum value
 direction joystickDir();
 
 #endif /* CONTROLLERDRIVER_H_ */

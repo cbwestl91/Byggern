@@ -7,8 +7,8 @@
 
 
 /* CHANNEL DEFINES:
-	channel 1 -> X?
-	channel 2 -> Y?
+	channel 1 -> X
+	channel 2 -> Y
 	channel 3 -> joystick press
 */
 

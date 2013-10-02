@@ -9,8 +9,11 @@
 #ifndef OLED_H_
 #define OLED_H_
 
+void init_program();
 
+void oled_print();
 
-
+void write_c(int command);
+void write_d(int data);
 
 #endif /* OLED_H_ */

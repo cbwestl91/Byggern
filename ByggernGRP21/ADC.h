@@ -11,6 +11,9 @@
 
 void ADCTest();
 
+
+
+
 char ADC_read(int channel); //returns filtered data from given channel
 
 #endif /* ADC_H_ */

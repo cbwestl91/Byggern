@@ -8,6 +8,9 @@
 #include <util/delay.h>
 
 void ADCTest(){
+	
+	// THIS DOESN'T REALLY TEST ANYTHING
+	// only used for checking voltage response of output pins
 	volatile char *ext_adc = (char *) 0x1400;
 	
 	uint16_t i;
@@ -21,6 +24,7 @@ void ADCTest(){
 	}
 	printf("ADC test completed");
 }
+
 
 char ADC_read(int channel){
 	volatile char *ADCmem = (char *)0x1400;

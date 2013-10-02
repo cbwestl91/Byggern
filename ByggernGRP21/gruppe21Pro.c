@@ -12,30 +12,25 @@
 #include "SRAM.h"
 #include "ADC.h"
 #include "controllerDriver.h"
-#include <util/delay.h>
+#include "OLED.h"
 
 int main(void)
 {
-	
+	/*
 	//Initialization of UART module
 	UARTinit();
 	fdevopen(UARTtransmit, UARTreceive);
-	
+	*/
 	//Initialization of SRAM module
 	MCUCR |= (1 << SRE);
 	SFIOR |= (1 << XMM2);
 	
-	//ADCTest();
+	init_program();
+	//oled_print();
 
 
     while(1){
 		
-		//char test = ADC_read(1);
 		
-		position asdf = joystickPos();
-		printf("This is the current x axis position: %d\n", asdf.x);
-
-		_delay_ms(50);
-	
 	}
 }
