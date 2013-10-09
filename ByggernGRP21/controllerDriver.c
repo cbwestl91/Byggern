@@ -24,21 +24,37 @@ void autoCal(){
 position joystickPos(){ //NB: which channel is which is not known at current time!
 	position current_position;
 
-	current_position.x = ADC_read(1);
-	current_position.y = ADC_read(2);
+	current_position.x = ADC_read(2);
+	current_position.y = ADC_read(1);
 	
 	return current_position;
 }
 
-direction joystickDir(){
+direction joystickDirX(){
 	position current_position = joystickPos();
 	direction current_direction;
 	
-	if ((double)current_position.x > 140){
+	if ((double)current_position.x > 150){
 		current_direction = RIGHT;
 	}
-	else if((double)current_position.x < 120){
+	else if((double)current_position.x < 110){
 		current_direction = LEFT;
+	}
+	else{
+		current_direction = NEUTRAL;
+	}
+	return current_direction;
+}
+
+direction joystickDirY(){
+	position current_position = joystickPos();
+	direction current_direction;
+	
+	if ((double)current_position.y > 150){
+		current_direction = UP;
+	}
+	else if((double)current_position.y < 110){
+		current_direction = DOWN;
 	}
 	else{
 		current_direction = NEUTRAL;

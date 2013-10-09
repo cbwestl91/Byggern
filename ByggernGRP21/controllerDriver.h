@@ -24,6 +24,7 @@ position joystickPos();
 
 
 // Returns direction of the joystick as an enum value
-direction joystickDir();
+direction joystickDirX();
+direction joystickDirY();
 
 #endif /* CONTROLLERDRIVER_H_ */

@@ -14,23 +14,24 @@
 #include "controllerDriver.h"
 #include "OLED.h"
 
-int main(void)
-{
-	/*
-	//Initialization of UART module
+
+int main(void){
+		//Initialization of UART module
 	UARTinit();
 	fdevopen(UARTtransmit, UARTreceive);
-	*/
+	
+	
 	//Initialization of SRAM module
 	MCUCR |= (1 << SRE);
 	SFIOR |= (1 << XMM2);
 	
-	init_program();
-	//oled_print();
-
-
+	//OLED
+	oled_init();
+	oled_home();
+	
     while(1){
-		
-		
+	
 	}
+	
+	return 0;
 }
