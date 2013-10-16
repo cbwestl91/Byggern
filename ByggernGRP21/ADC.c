@@ -5,6 +5,9 @@
  *  Author: chriwes
  */ 
 #include <avr/io.h>
+
+#define F_CPU 4915200
+
 #include <util/delay.h>
 
 void ADCTest(){
@@ -33,7 +36,7 @@ char ADC_read(int channel){
 	ADCmem[0] = 0x03 + channel;
 	
 	//wait for filtering
-	_delay_us(40);
+	_delay_us(60);
 	
 	return ADCmem[0];
 }		

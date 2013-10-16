@@ -16,7 +16,7 @@
 
 
 int main(void){
-		//Initialization of UART module
+	//Initialization of UART module
 	UARTinit();
 	fdevopen(UARTtransmit, UARTreceive);
 	
@@ -25,8 +25,18 @@ int main(void){
 	MCUCR |= (1 << SRE);
 	SFIOR |= (1 << XMM2);
 	
-	//OLED
+	//Initialization of joystick
+	autoCal();
+	
+	printf("%i, %i\n", offsetX, offsetY);
+	
+	//Initialization of OLED
 	oled_init();
+	
+	
+	
+	
+	//start execution
 	oled_home();
 	
     while(1){

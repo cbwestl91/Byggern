@@ -26,14 +26,14 @@
     <com_atmel_avrdbg_tool_jtagicemkii>
       <ToolType>com.atmel.avrdbg.tool.jtagicemkii</ToolType>
       <ToolName>JTAGICE mkII</ToolName>
-      <ToolNumber>090000005688</ToolNumber>
+      <ToolNumber>00B0000060D9</ToolNumber>
       <KeepTimersRunning>true</KeepTimersRunning>
       <OverrideVtor>false</OverrideVtor>
       <OverrideVtorValue>
       </OverrideVtorValue>
       <Channel>
         <host>127.0.0.1</host>
-        <port>52204</port>
+        <port>49414</port>
         <ssl>False</ssl>
       </Channel>
       <ToolOptions>

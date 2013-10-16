@@ -9,6 +9,12 @@
 
 #include "controllerDriver.h"
 
+#define menu_entry_one 2
+#define menu_entry_two 3
+#define menu_entry_three 4
+
+
+
 //Takes in a byte and passes to the command memory of the OLED screen
 void write_c(char command){
 	volatile char *commandMem = (char *)0x1000;
@@ -51,10 +57,11 @@ void oled_init(){
 	// Clear screen
 	int i, j;
 	for(i = 0; i < 8; i++){
-		for(j = 0; j < 512; j++){
+		oled_goto_line(i);
+		for(j = 0; j < 256; j++){
 			write_d(0b00000000);
 		}
-		oled_goto_line(i);
+	
 	}
 	
 	//Jump to first line
@@ -118,63 +125,85 @@ void oled_home(){
 	
 	oled_goto_line(0);
 	oled_print("MENU");
-	oled_goto_line(2);
+	oled_goto_line(menu_entry_one);
 	oled_print(entry1);
-	oled_goto_line(3);
+	oled_goto_line(menu_entry_two);
 	oled_print(entry2);
-	oled_goto_line(4);
+	oled_goto_line(menu_entry_three);
 	oled_print(entry3);
 	
 	//Define menu pointer
-	oled_pos(2, 5);
+	oled_pos(menu_entry_one, 5);
 	oled_print("<<");
 	
+	// arrow starts on entry one. Movement of joystick along Y axis changes this
+	int arrow = menu_entry_one;
+	int prev_arrow;
+	int navigation_counter = 999;
 	
-	int prev;
-	int i = 2;
+	
+	
 	while(1){
-		while(joystickDirY() != NEUTRAL);
-		while(joystickDirY() == NEUTRAL);
-					prev = i;
+		
+		if(joystickDirY() != NEUTRAL){
+			navigation_counter++;
+		}
+		else{
+			navigation_counter = 1;
+		}
+
+
+
+
+
+		if(navigation_counter % 600 == 0){
+
+					prev_arrow = arrow;
 					if(joystickDirY() == UP){
 						
-						if(i == 2){
-							i = 5;
-						}
-						i--;
+						if(arrow == menu_entry_one){
+							arrow = menu_entry_three;
+						} else{
+							arrow--;
+						}						
 					}
 					else if(joystickDirY() == DOWN){
 
-						if(i == 4){
-							i = 1;
-						}
-						i++;
+						if(arrow == menu_entry_three){
+							arrow = menu_entry_one;
+						} else{
+						
+						arrow++;
+						}						
 					}
 					
 				
-						oled_goto_line(prev);
+						oled_goto_line(prev_arrow);
 						oled_clear_line();
 						
-						if(prev == 2){
+						if(prev_arrow == menu_entry_one){
 							oled_print(entry1);
-						} else if(prev == 3){
+						} else if(prev_arrow == menu_entry_two){
 							oled_print(entry2);
-						} else{
+						} else if(prev_arrow == menu_entry_three){
 							oled_print(entry3);
 						}
 						
-						oled_goto_line(i);
-						if(i == 2){
+						oled_goto_line(arrow);
+						if(arrow == menu_entry_one){
 							oled_print(entry1);
-						} else if(i == 3){
+						} else if(arrow == menu_entry_two){
 							oled_print(entry2);
-						} else{
+						} else if(arrow == menu_entry_three){
 							oled_print(entry3);
 						}
 						
 						oled_changeColumn(5);
 						oled_print("<<");
-			
-	}						
-}
+						oled_changeColumn(0);
+						
+						navigation_counter++;
+		}
+	}
+}																											
 																		
