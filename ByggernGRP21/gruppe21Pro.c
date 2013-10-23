@@ -35,9 +35,11 @@ int main(void){
 	
 	
 	
+	MCPWrite();
+	
 	
 	//start execution
-	oled_home();
+	//oled_home();
 	
     while(1){
 	

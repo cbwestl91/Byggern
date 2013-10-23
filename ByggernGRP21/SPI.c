@@ -8,8 +8,28 @@
 #include "avr/io.h"
 
 void SPI_MasterInit(){
-	//MOSI and SCK output, others input
-	DDRB = (1 << DDB5) | (1 << DDB7);
+	
+	//Set MOSI, SCK and SS as output, others as input
+	DDRB = (1 << PB4) | (1 << PB5) | (1 << PB7);
+	
 	//Enable SPI, Master, set clock rate 
-	SPCR = (1 << SPE) | (1 << MSTR) | ();
+	SPCR = (1 << SPE) | (1 << MSTR) | (1 << SPR0);
 }
+
+void SPI_MasterTransmit(char data){
+	
+	//Start transmission
+	SPDR = data;
+	
+	//Wait for completion
+	while(!(SPSR & (1 << SPIF)));
+}
+
+char SPI_MasterRead(){
+	
+	//Deliver contents of the data register
+	return SPDR;
+}
+
+
+// register CANINTF for interrupts
