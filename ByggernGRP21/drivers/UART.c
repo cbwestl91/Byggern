@@ -12,7 +12,22 @@
 //#define BAUD 19200 // baudrate
 #define localUBRR 15
 
-void UARTinit(){
+void UARTtransmit(unsigned char data){
+
+	loop_until_bit_is_set(UCSR0A, UDRE0);
+	
+	// passing data to transmission buffer
+	UDR0 = data;
+}
+
+unsigned char UARTreceive(){
+		
+	loop_until_bit_is_set(UCSR0A, RXC0);
+	
+	return UDR0;
+}
+
+void UART_init(){
 	
 	// set baud rate
 	/*
@@ -35,19 +50,7 @@ void UARTinit(){
 	
 	// double transmission speed
 	//UCSR0C |= (1 << U2X0);
-}
-
-void UARTtransmit(unsigned char data){
-
-	loop_until_bit_is_set(UCSR0A, UDRE0);
 	
-	// pasting data to transmission buffer
-	UDR0 = data;
-}
-
-unsigned char UARTreceive(){
-		
-	loop_until_bit_is_set(UCSR0A, RXC0);
-	
-	return UDR0;
+	//Recently moved here, does it still work?
+	fdevopen(UARTtransmit, UARTreceive);
 }

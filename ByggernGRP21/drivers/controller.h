@@ -9,6 +9,20 @@
 #ifndef CONTROLLERDRIVER_H_
 #define CONTROLLERDRIVER_H_
 
+/* CHANNEL DEFINES:
+	channel 1 -> Y
+	channel 2 -> X
+	channel 3 -> joystick press
+*/
+
+#define Y_AXIS 1
+#define X_AXIS 2
+#define JOYSTICK_PRESS 3
+
+// Defines for when we regard position to be negative or positive
+#define NEGATIVE_TRESHOLD 120
+#define POSITIVE_TRESHOLD 140
+
 typedef struct{
 	int x;
 	int y;

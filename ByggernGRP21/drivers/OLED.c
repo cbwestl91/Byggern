@@ -7,7 +7,7 @@
 #include <avr/io.h>
 #include "font_5x7.h"
 
-#include "controllerDriver.h"
+#include "controller.h"
 
 #define menu_entry_one 2
 #define menu_entry_two 3

@@ -8,22 +8,19 @@
 //#define F_CPU 4915200UL
 
 #include <avr/io.h>
-#include "uartDriver.h"
-#include "SRAM.h"
-#include "ADC.h"
-#include "controllerDriver.h"
-#include "OLED.h"
+#include "drivers/UART.h"
+#include "drivers/SRAM.h"
+#include "drivers/ADC.h"
+#include "drivers/controller.h"
+#include "drivers/OLED.h"
 
 
 int main(void){
 	//Initialization of UART module
-	UARTinit();
-	fdevopen(UARTtransmit, UARTreceive);
-	
+	UART_init();
 	
 	//Initialization of SRAM module
-	MCUCR |= (1 << SRE);
-	SFIOR |= (1 << XMM2);
+	SRAM_init();
 	
 	//Initialization of joystick
 	autoCal();

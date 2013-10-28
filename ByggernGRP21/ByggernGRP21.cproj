@@ -95,63 +95,66 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ADC.c">
+    <Compile Include="drivers\ADC.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="ADC.h">
+    <Compile Include="drivers\ADC.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="CAN.c">
+    <Compile Include="drivers\CAN.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="CAN.h">
+    <Compile Include="drivers\CAN.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="controllerDriver.c">
+    <Compile Include="drivers\controller.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="controllerDriver.h">
+    <Compile Include="drivers\controller.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="font_5x7.h">
+    <Compile Include="drivers\font_5x7.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="font_8x8.h">
+    <Compile Include="drivers\font_8x8.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="gruppe21Pro.c">
+    <Compile Include="drivers\MCP2515.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCP2515.c">
+    <Compile Include="drivers\MCP2515.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MCP2515.h">
+    <Compile Include="drivers\OLED.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="OLED.c">
+    <Compile Include="drivers\OLED.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="OLED.h">
+    <Compile Include="drivers\SPI.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPI.c">
+    <Compile Include="drivers\SPI.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SPI.h">
+    <Compile Include="drivers\SRAM.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SRAM.c">
+    <Compile Include="drivers\SRAM.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SRAM.h">
+    <Compile Include="drivers\UART.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uartDriver.c">
+    <Compile Include="drivers\UART.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uartDriver.h">
+    <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="drivers" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

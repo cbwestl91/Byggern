@@ -7,8 +7,7 @@
 
 #include <avr/io.h>
 
-
-void SRAM_test(void)
+int SRAM_test()
 {
 	// Start address for the SRAM
 	volatile char *ext_ram = (char *) 0x1800;
@@ -38,4 +37,11 @@ void SRAM_test(void)
 	}
 
 	printf("SRAM test completed with %d errors in write phase and %d errors in read phase\r\n", werrors, rerrors);
+}
+
+void SRAM_init(){
+	MCUCR |= (1 << SRE);
+	SFIOR |= (1 << XMM2);
+	
+	SRAM_test();
 }

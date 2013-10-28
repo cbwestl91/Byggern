@@ -10,7 +10,7 @@
 #define UARTDRIVER_H_
 
 
-void UARTinit();
+void UART_init();
 void UARTtransmit(unsigned char data);
 unsigned char UARTreceive();
 

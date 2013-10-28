@@ -5,7 +5,10 @@
  *  Author: chriwes
  */ 
 
+#include <avr/io.h>
+#include "MCP2515.h"
 #include "CAN.h"
+
 
 void CANInit(){
 	char reg = MCP_CANCTRL;
