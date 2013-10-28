@@ -28,6 +28,11 @@ local.properties
 # PDT-specific
 .buildpath
 
+#################
+## Atmel Studio
+#################
+*.atsuo
+TcfTransactionLog.csv
 
 #################
 ## Visual Studio
