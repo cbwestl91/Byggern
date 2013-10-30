@@ -13,6 +13,10 @@
 #include "drivers/ADC.h"
 #include "drivers/controller.h"
 #include "drivers/OLED.h"
+#include "drivers/CAN.h"
+#include "drivers/MCP2515.h"
+
+#include <util/delay.h>
 
 
 int main(void){
@@ -31,12 +35,31 @@ int main(void){
 	oled_init();
 	
 	
-	
-	MCPWrite();
-	
-	
 	//start execution
 	//oled_home();
+	
+	SPI_MasterInit();
+	CANInit_loopback();
+	
+	CANmessage test, returned;
+	test.ID = 0b00000000;
+	test.length = 8;
+	test.data[0] = 1;
+	
+	CAN_send(test);
+	
+	_delay_ms(20);
+	
+	returned = CAN_read();
+	
+	printf("CAN message: %i\n", returned.data[0]);
+	
+	CAN_send(test);
+	//printf("CANINTF: %d\n",MCPRead(MCP_CANINTF));
+	
+	_delay_ms(20);
+	returned = CAN_read();
+	printf("CAN message: %i\n", returned.data[0]);
 	
     while(1){
 	

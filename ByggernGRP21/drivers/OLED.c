@@ -70,7 +70,7 @@ void oled_init(){
 
 //Takes in a char and prints it to screen
 void oled_print_char(char c){
-	int i,j;
+	int i;
 	for(i=0;i<5;i++){
 		write_d(pgm_read_byte(&font[(int) c -32][i]));
 	}		

@@ -11,11 +11,29 @@
 
 
 void CANInit_loopback(){
+	MCPReset();
+	
+	uint8_t temp = MCPRead(MCP_CANSTAT);
+	
+	if(temp == MODE_CONFIG){
+		printf("WE ARE IN CONFIG MODE!\n");
+	} else {
+		printf("WE ARE NOT IN CONFIG MODE: %i\n", temp);
+		return;
+	}
+	
 	char reg = MCP_CANCTRL;
 	char mask = MODE_MASK;
 	char data = MODE_LOOPBACK;
 	
 	MCPBitModify(reg, mask, data);
+	
+	temp = MCPRead(MCP_CANSTAT);
+	
+	if(temp == MODE_LOOPBACK){
+		printf("WE ARE IN LOOPBACK MODE!\n");
+	}
+	
 }
 
 void CANInit_normal(){
@@ -32,17 +50,67 @@ int CAN_send(CANmessage msg){
 	uint8_t status = MCPReadStatus();
 	uint8_t buffer = 0;
 
-	if((status & (1 << TXREQ0) == 0){
-		buffer = MCP_TXB0CTRL;
+	if((status & (1 << TXREQ0)) == 0){
+		MCPWrite(TXB0SIDL, msg.ID);
+		MCPWrite(TXB0SIDH, msg.ID);
+		
+		MCPWrite(TXB0DLC, msg.length);
+		
+		buffer = TXB0D0;
+		for(int i = 0; i < msg.length; i++){
+			MCPWrite(buffer+i, msg.data[i]);
+		}
+		
+		MCPRequestToSend(MCP_RTS_TX0);
+		
+		return 0;
 	}
-	else if(status & (1 << TXREQ1) == 0){
-		buffer = MCP_TXB1CTRL;
+	else if((status & (1 << TXREQ1)) == 0){
+		MCPWrite(TXB1SIDL, msg.ID);
+		MCPWrite(TXB1SIDH, msg.ID);
+		
+		buffer = TXB1D0;
+		for(int i = 0; i < msg.length; i++){
+			MCPWrite(buffer+i, msg.data[i]);
+		}
+		
+		MCPRequestToSend(MCP_RTS_TX1);
+		
+		return 0;
 	}
-	else if(status & (1 << TXREQ2) == 0){
-		buffer = MCP_TXB2CTRL;
+	else if((status & (1 << TXREQ2)) == 0){
+		MCPWrite(TXB2SIDL, msg.ID);
+		MCPWrite(TXB2SIDH, msg.ID);
+		
+		buffer = TXB2D0;
+		for(int i = 0; i < msg.length; i++){
+			MCPWrite(buffer+i, msg.data[i]);
+		}
+		
+		MCPRequestToSend(MCP_RTS_TX2);
+		
+		return 0;
+	} else {
+		printf("FAILED TO SEND CAN MSG\n");
+		return -1;
+	}
+}
+
+CANmessage CAN_read(){
+	CANmessage received;
+	received.length = 8;
+	uint8_t status = MCPReadStatus();
+	
+	if((status & (1 << RX0IF))){
+		printf("CAN received into RX0IF\n");
+		received.data[0] = MCPRead(RXB0DM);
+		MCPBitModify(MCP_CANINTF, 0x01, 0x00);
+		
+	} else if((status & (1 << RX1IF))) {
+		printf("CAN received into RX1IF\n");
+		received.data[0] = MCPRead(RXB1DM);
+		MCPBitModify(MCP_CANINTF, 0x02, 0x00);
 	}
 	
-	for(uint8_t i = 0; i < frame->msg.length; i++) {
-		mcp2515_write(buffer+0x6+i, frame->data[i]);
-	}
+	return received;
 }

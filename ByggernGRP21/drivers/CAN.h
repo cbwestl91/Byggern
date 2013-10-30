@@ -11,9 +11,12 @@
 
 //STATUS Register Bits
 
+#define RX0IF 0x00
+#define RX1IF 0x01
 #define TXREQ0 0x04
 #define TXREQ1 0x10
 #define TXREQ2 0x40
+
 
 typedef struct{
 	unsigned int ID;
@@ -25,6 +28,6 @@ void CANInit_loopback();
 void CANInit_normal();
 
 int CAN_send(CANmessage msg);
-CANmessage CAN_receive();
+CANmessage CAN_read();
 
 #endif /* CAN_H_ */

@@ -154,6 +154,58 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_WAKIF		0x40
 #define MCP_MERRF		0x80
 
+// CAN sending Register Bits
+
+#define	TXB0CTRL        0x30
+#define        TXB0SIDH        0x31
+#define        TXB0SIDL        0x32
+#define        TXB0EID8        0x33
+#define        TXB0EID0        0x34
+#define        TXB0DLC        0x35
+#define        TXB0D0        0x36
+#define        TXB0D1        0x37
+#define        TXB0D2        0x38
+#define        TXB0D3        0x39
+#define        TXB0D4        0x3A
+#define        TXB0D5        0x3B
+#define        TXB0D6        0x3C
+#define        TXB0D7        0x3D
+
+#define        TXB1CTRL        0x40
+#define        TXB1SIDH        0x41
+#define        TXB1SIDL     0x42
+#define        TXB1EID8        0x43
+#define        TXB1EID0        0x44
+#define        TXB1DLC        0x45
+#define        TXB1D0        0x46
+#define        TXB1D1        0x47
+#define        TXB1D2        0x48
+#define        TXB1D3        0x49
+#define        TXB1D4        0x4A
+#define        TXB1D5        0x4B
+#define        TXB1D6        0x4C
+#define        TXB1D7        0x4D
+
+#define        TXB2CTRL        0x50
+#define        TXB2SIDH        0x51
+#define        TXB2SIDL        0x52
+#define        TXB2EID8        0x53
+#define        TXB2EID0        0x54
+#define        TXB2DLC        0x55
+#define        TXB2D0        0x56
+#define        TXB2D1        0x57
+#define        TXB2D2        0x58
+#define        TXB2D3        0x59
+#define        TXB2D4        0x5A
+#define        TXB2D5        0x5B
+#define        TXB2D6        0x5C
+#define        TXB2D7        0x5D
+
+//CAN receive Registers
+
+#define RXB0DM 0x66
+#define RXB1DM 0x76
+
 //Control pins for MCP2515
 #define MCP_CHIPSELECT PB4
 #define SPI_REGISTER PORTB

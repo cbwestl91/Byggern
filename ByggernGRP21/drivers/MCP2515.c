@@ -42,9 +42,13 @@ char MCPRead(char reg){
 	//Transmit desired location
 	SPI_MasterTransmit(reg);
 	
+
+	
+	uint8_t readValue = SPI_MasterRead();
+	
 	MCPChipDeselect();
 	
-	return SPI_MasterRead();
+	return readValue;
 }
 
 char MCPReadStatus(){
@@ -52,9 +56,11 @@ char MCPReadStatus(){
 	
 	SPI_MasterTransmit(MCP_READ_STATUS);
 	
+	uint8_t readValue = SPI_MasterRead();
+
 	MCPChipDeselect();
-	
-	return SPI_MasterRead();
+
+	return readValue;
 }
 
 void MCPRequestToSend(char reg){
