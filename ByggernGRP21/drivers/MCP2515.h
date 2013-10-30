@@ -154,15 +154,12 @@ Copyright 2003 Kimberly Otten Software Consulting
 #define MCP_WAKIF		0x40
 #define MCP_MERRF		0x80
 
-//Pins for controlling the MCP2515
+//Control pins for MCP2515
 #define MCP_CHIPSELECT PB4
 #define SPI_REGISTER PORTB
 
-void MCPChipSelect();
-void MCPChipDeselect();
-
 char MCPRead(char reg);
-char MCPReadStatus(char reg);
+char MCPReadStatus();
 void MCPWrite(char reg, char data);
 void MCPRequestToSend(char reg);
 void MCPBitModify(char reg, char mask, char data);

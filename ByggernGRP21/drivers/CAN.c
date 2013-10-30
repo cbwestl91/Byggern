@@ -6,24 +6,43 @@
  */ 
 
 #include <avr/io.h>
-#include "MCP2515.h"
+#include "MCP2515.h" //This header file contains MCP2515 register definitions
 #include "CAN.h"
 
 
-void CANInit(){
+void CANInit_loopback(){
 	char reg = MCP_CANCTRL;
+	char mask = MODE_MASK;
+	char data = MODE_LOOPBACK;
 	
-	//These settings give loopback mode
-	char mask = 0xe0;
-	char data = 0;
-	
-	MCPBitModify(reg, mask, data); 
+	MCPBitModify(reg, mask, data);
 }
 
-void CANSend(CANmessage *msg){
+void CANInit_normal(){
+	char reg = MCP_CANCTRL;
+	char mask = MODE_MASK;
+	char data = MODE_NORMAL;
 	
-	uint8_t i;
-	for(i = 0; i < msg->length; i++){
-		
+	MCPBitModify(reg, mask, data);
+}
+
+int CAN_send(CANmessage msg){
+	//Locate free register
+	//The status return bits seem weirdly placed
+	uint8_t status = MCPReadStatus();
+	uint8_t buffer = 0;
+
+	if((status & (1 << TXREQ0) == 0){
+		buffer = MCP_TXB0CTRL;
+	}
+	else if(status & (1 << TXREQ1) == 0){
+		buffer = MCP_TXB1CTRL;
+	}
+	else if(status & (1 << TXREQ2) == 0){
+		buffer = MCP_TXB2CTRL;
+	}
+	
+	for(uint8_t i = 0; i < frame->msg.length; i++) {
+		mcp2515_write(buffer+0x6+i, frame->data[i]);
 	}
 }

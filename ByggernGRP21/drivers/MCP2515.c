@@ -9,37 +9,13 @@
 #include "MCP2515.h"
 
 void MCPChipSelect(){
-	//The chip select signal is pulled down
+	//Chip select signal is pulled down
 	SPI_REGISTER &= ~(1 << MCP_CHIPSELECT);
 }
 
 void MCPChipDeselect(){
-	//The chip select signal is pulled up
+	//Chip select signal is pulled up
 	SPI_REGISTER |= (1 << MCP_CHIPSELECT);
-}	
-
-char MCPRead(char reg){
-	MCPChipSelect();
-	
-	//Transmit read instruction
-	SPI_MasterTransmit(MCP_READ);
-	
-	//Transmit desired location
-	SPI_MasterTransmit(reg);
-	
-	MCPChipDeselect();
-	
-	return SPI_MasterRead();
-}
-
-char MCPReadStatus(char reg){
-	MCPChipSelect();
-	
-	SPI_MasterTransmit(MCP_READ_STATUS);
-	
-	MCPChipDeselect();
-	
-	return SPI_MasterRead();
 }
 
 void MCPWrite(char reg, char data){
@@ -55,6 +31,30 @@ void MCPWrite(char reg, char data){
 	SPI_MasterTransmit(data);
 	
 	MCPChipDeselect();
+}
+
+char MCPRead(char reg){
+	MCPChipSelect();
+	
+	//Transmit read instruction
+	SPI_MasterTransmit(MCP_READ);
+	
+	//Transmit desired location
+	SPI_MasterTransmit(reg);
+	
+	MCPChipDeselect();
+	
+	return SPI_MasterRead();
+}
+
+char MCPReadStatus(){
+	MCPChipSelect();
+	
+	SPI_MasterTransmit(MCP_READ_STATUS);
+	
+	MCPChipDeselect();
+	
+	return SPI_MasterRead();
 }
 
 void MCPRequestToSend(char reg){

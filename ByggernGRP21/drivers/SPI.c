@@ -30,6 +30,3 @@ char SPI_MasterRead(){
 	//Deliver contents of the data register
 	return SPDR;
 }
-
-
-// register CANINTF for interrupts
