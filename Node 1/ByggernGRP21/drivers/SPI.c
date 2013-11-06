@@ -14,8 +14,6 @@ void SPI_MasterInit(){
 	
 	//Enable SPI, Master, set clock rate 
 	SPCR |= (1 << SPE) | (1 << MSTR) | (1 << SPR0);
-	
-	PORTB |= (1 << PB5);
 }
 
 void SPI_MasterTransmit(char data){

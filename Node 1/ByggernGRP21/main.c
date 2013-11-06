@@ -16,8 +16,7 @@
 #include "drivers/CAN.h"
 #include "drivers/MCP2515.h"
 
-#include <util/delay.h>
-
+#include <avr/delay.h>
 
 int main(void){
 	//Initialization of UART module
@@ -44,25 +43,33 @@ int main(void){
 	CANmessage test, returned;
 	test.ID = 0b00000000;
 	test.length = 8;
-	test.data[0] = 1;
+	test.data[0] = 15;
 	
-	CAN_send(test);
+	CANmessage test2, returned2;
+	test.ID = 0b00000000;
+	test.length = 8;
+	test.data[0] = 5;
 	
-	_delay_ms(20);
+	//CAN_send(test);
 	
-	returned = CAN_read();
+	//_delay_ms(20);
 	
-	printf("CAN message: %i\n", returned.data[0]);
+	//returned = CAN_read();
 	
-	CAN_send(test);
+	//printf("CAN message: %i\n", returned.data[0]);
+	
+	//CAN_send(test);
 	//printf("CANINTF: %d\n",MCPRead(MCP_CANINTF));
 	
-	_delay_ms(20);
-	returned = CAN_read();
-	printf("CAN message: %i\n", returned.data[0]);
+	//_delay_ms(20);
+	//returned = CAN_read();
+	//printf("CAN message: %i\n", returned.data[0]);
 	
     while(1){
-	
+		CAN_send(test);
+		_delay_ms(5000);
+		returned = CAN_read();
+		printf("returned CAN: %d\n", returned);
 	}
 	
 	return 0;

@@ -19,7 +19,7 @@ void CANInit_loopback(){
 		printf("WE ARE IN CONFIG MODE!\n");
 	} else {
 		printf("WE ARE NOT IN CONFIG MODE: %i\n", temp);
-		return;
+		//return;
 	}
 	
 	char reg = MCP_CANCTRL;
@@ -37,11 +37,28 @@ void CANInit_loopback(){
 }
 
 void CANInit_normal(){
+	MCPReset();
+	
+	uint8_t temp = MCPRead(MCP_CANSTAT);
+	
+	if(temp == MODE_CONFIG){
+		printf("WE ARE IN CONFIG MODE!\n");
+	} else {
+		printf("WE ARE NOT IN CONFIG MODE: %i\n", temp);
+		return;
+	}
+	
 	char reg = MCP_CANCTRL;
 	char mask = MODE_MASK;
 	char data = MODE_NORMAL;
 	
 	MCPBitModify(reg, mask, data);
+	
+	temp = MCPRead(MCP_CANSTAT);
+	
+	if(temp == MODE_NORMAL){
+		printf("WE ARE IN NORMAL MODE!\n");
+	}
 }
 
 int CAN_send(CANmessage msg){
@@ -99,6 +116,7 @@ int CAN_send(CANmessage msg){
 CANmessage CAN_read(){
 	CANmessage received;
 	received.length = 8;
+	received.data[0] = 0x00;
 	uint8_t status = MCPReadStatus();
 	
 	if((status & (1 << RX0IF))){
