@@ -22,19 +22,20 @@ int main(void){
 	CANmessage test, returned;
 	test.ID = 0b00000000;
 	test.length = 8;
-	test.data[0] = 1;
+	test.data[0] = 7;
 
 	char msg;
 
 	while(1){
+		_delay_ms(1000);
 		CAN_send(test);
 		_delay_ms(50);
 		returned = CAN_read();
 		
 		//returned = CAN_read();
-		_delay_ms(1000);
+		
 
-		printf("CAN RECEIVED: %d\n", returned);
+		printf("CAN RECEIVED: %d\n", returned.data[0]);
 
 
 	}

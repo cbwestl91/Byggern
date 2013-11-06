@@ -40,15 +40,17 @@ int main(void){
 	SPI_MasterInit();
 	CANInit_loopback();
 	
+	char buffer;
+	
 	CANmessage test, returned;
-	test.ID = 0b00000000;
+	test.ID = 0b10101010;
 	test.length = 8;
-	test.data[0] = 15;
+	test.data[0] = 7;
 	
 	CANmessage test2, returned2;
-	test.ID = 0b00000000;
-	test.length = 8;
-	test.data[0] = 5;
+	test2.ID = 0b00000000;
+	test2.length = 8;
+	test2.data[0] = 5;
 	
 	//CAN_send(test);
 	
@@ -67,9 +69,9 @@ int main(void){
 	
     while(1){
 		CAN_send(test);
-		_delay_ms(5000);
+		_delay_ms(500);
 		returned = CAN_read();
-		printf("returned CAN: %d\n", returned);
+		printf("RECEIVED CAN MSG: %d\n", returned.data[0]);
 	}
 	
 	return 0;
