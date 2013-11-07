@@ -8,6 +8,8 @@
 //#define F_CPU 4915200UL
 
 #include <avr/io.h>
+#include <avr/interrupt.h>
+#include <avr/delay.h>
 #include "drivers/UART.h"
 #include "drivers/SRAM.h"
 #include "drivers/ADC.h"
@@ -16,7 +18,7 @@
 #include "drivers/CAN.h"
 #include "drivers/MCP2515.h"
 
-#include <avr/delay.h>
+
 
 int main(void){
 	//Initialization of UART module
@@ -33,6 +35,13 @@ int main(void){
 	//Initialization of OLED
 	oled_init();
 	
+	//Enable interrupts
+	DDRE &= ~(1 << PE0);
+	cli();
+	EMCUCR &= ~(1 << ISC2);
+	GICR |= (1 << INT2);
+	sei();
+	
 	
 	//start execution
 	//oled_home();
@@ -42,15 +51,10 @@ int main(void){
 	
 	char buffer;
 	
-	CANmessage test, returned;
-	test.ID = 0b10101010;
+	CANmessage test;
+	test.ID = 0b00000000;
 	test.length = 8;
 	test.data[0] = 7;
-	
-	CANmessage test2, returned2;
-	test2.ID = 0b00000000;
-	test2.length = 8;
-	test2.data[0] = 5;
 	
 	//CAN_send(test);
 	
@@ -69,10 +73,13 @@ int main(void){
 	
     while(1){
 		CAN_send(test);
-		_delay_ms(500);
-		returned = CAN_read();
-		printf("RECEIVED CAN MSG: %d\n", returned.data[0]);
+		_delay_ms(5000);
 	}
 	
 	return 0;
+}
+
+ISR(INT2_vect){
+	CANmessage received = CAN_read();
+	printf("We are inside the interrupt! received: %d\n", received.data[0]);
 }

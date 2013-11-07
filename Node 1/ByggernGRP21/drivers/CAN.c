@@ -15,7 +15,7 @@ void CANInit_loopback(){
 	
 	uint8_t temp = MCPRead(MCP_CANSTAT);
 	
-	if(temp == MODE_CONFIG){
+	if((temp & MODE_CONFIG) != 0){
 		printf("WE ARE IN CONFIG MODE!\n");
 	} else {
 		printf("WE ARE NOT IN CONFIG MODE: %i\n", temp);
@@ -33,6 +33,9 @@ void CANInit_loopback(){
 	if(temp == MODE_LOOPBACK){
 		printf("WE ARE IN LOOPBACK MODE!\n");
 	}
+	
+	//Enable interrupt on receive
+	MCPBitModify(MCP_CANINTE, MCP_RX_INT, MCP_RX_INT);
 	
 }
 
@@ -59,6 +62,9 @@ void CANInit_normal(){
 	if(temp == MODE_NORMAL){
 		printf("WE ARE IN NORMAL MODE!\n");
 	}
+	
+	//Enable interrupt on receive
+	MCPBitModify(MCP_CANINTE, MCP_RX_INT, MCP_RX_INT);
 }
 
 int CAN_send(CANmessage msg){

@@ -12,6 +12,9 @@ void SPI_MasterInit(){
 	//Set MOSI, SCK and SS as output, others as input
 	DDRB |= (1 << PB2) | (1 << PB1) | (1 << PB0);
 	
+	//Set SS high
+	PORTB |= (1 << PB0);
+	
 	//Enable SPI, Master, set clock rate 
 	SPCR |= (1 << SPE) | (1 << MSTR) | (1 << SPR0);
 }
@@ -25,7 +28,7 @@ void SPI_MasterTransmit(char data){
 	while(!(SPSR & (1 << SPIF)));
 }
 
-char SPI_MasterRead(){
+volatile char SPI_MasterRead(){
 	
 	
 	//Start transmission
