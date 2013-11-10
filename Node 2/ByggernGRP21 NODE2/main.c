@@ -14,6 +14,8 @@
 #include "drivers/MCP2515.h"
 
 
+
+
 int main(void){
 	//Initialization of UART module
 	UART_init();
@@ -23,6 +25,7 @@ int main(void){
 	
 	//Enable interrupts
 	DDRE &= ~(1 << PE4);
+	cli();
 	EIMSK |= (1 << INT4);
 	sei();
 	
@@ -35,11 +38,11 @@ int main(void){
 	char msg;
 
 	while(1){
-		_delay_ms(50);
+		_delay_ms(500);
 	}
 }
 
 ISR(INT4_vect){
 	CANmessage received = CAN_read();
-	printf("We are inside the interrupt! received: %d\n", received.data[0]);
+	printf("We are inside the interrupt! received: %i %i\n", received.data[0], received.data[1]);
 }

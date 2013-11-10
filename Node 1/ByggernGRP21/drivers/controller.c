@@ -9,14 +9,6 @@
 #include "ADC.h"
 #include "controller.h"
 
-void autoCal(){
-	// something something works
-	
-	position initPos = joystickPos();
-	offsetX = initPos.x;
-	offsetY = initPos.y;
-}
-
 position joystickPos(){ //NB: Channels are a bit undefined as of now
 	position current_position;
 	
@@ -24,6 +16,14 @@ position joystickPos(){ //NB: Channels are a bit undefined as of now
 	current_position.y = ADC_read(Y_AXIS);
 
 	return current_position;
+}
+
+void autoCal(){
+	// something something works
+	
+	position initPos = joystickPos();
+	offsetX = initPos.x;
+	offsetY = initPos.y;
 }
 
 direction joystickDirX(){

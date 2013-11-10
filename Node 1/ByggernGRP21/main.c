@@ -9,7 +9,7 @@
 
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 #include "drivers/UART.h"
 #include "drivers/SRAM.h"
 #include "drivers/ADC.h"
@@ -18,9 +18,11 @@
 #include "drivers/CAN.h"
 #include "drivers/MCP2515.h"
 
-
+//variables
+volatile uint8_t button_pressed = 0;
 
 int main(void){
+	
 	//Initialization of UART module
 	UART_init();
 	
@@ -36,10 +38,12 @@ int main(void){
 	oled_init();
 	
 	//Enable interrupts
+	DDRD &= ~(1 << PD2);
 	DDRE &= ~(1 << PE0);
 	cli();
+	MCUCR |= (1 << ISC01);
 	EMCUCR &= ~(1 << ISC2);
-	GICR |= (1 << INT2);
+	GICR |= (1 << INT0) | (1 << INT2);
 	sei();
 	
 	
@@ -47,9 +51,7 @@ int main(void){
 	//oled_home();
 	
 	SPI_MasterInit();
-	CANInit_loopback();
-	
-	char buffer;
+	CANInit_normal();
 	
 	CANmessage test;
 	test.ID = 0b00000000;
@@ -70,16 +72,40 @@ int main(void){
 	//_delay_ms(20);
 	//returned = CAN_read();
 	//printf("CAN message: %i\n", returned.data[0]);
+	CANmessage joystick_info;
+	
+	volatile final_direction dir;
+	
+	joystick_info.ID = 0b00000000;
+	joystick_info.length = 8;
 	
     while(1){
-		CAN_send(test);
-		_delay_ms(5000);
+		//Periodical sending of joystick position
+		dir.x = joystickDirX();
+		dir.y = joystickDirY();
+		
+		printf("%d\n", dir.x);
+		printf("%d\n", dir.y);
+		
+		joystick_info.data[0] = dir.x;
+		joystick_info.data[1] = dir.y;
+		
+		CAN_send(joystick_info);
+		
+		button_pressed = 0;
+		
+		_delay_ms(500);
 	}
 	
 	return 0;
 }
 
-ISR(INT2_vect){
+ISR(INT0_vect){
 	CANmessage received = CAN_read();
 	printf("We are inside the interrupt! received: %d\n", received.data[0]);
+}
+
+ISR(INT2_vect){
+	button_pressed = 1;
+	printf("Detected joystick press!\n");
 }

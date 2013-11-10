@@ -20,22 +20,26 @@
 #define JOYSTICK_PRESS 3
 
 // Defines for when we regard position to be negative or positive
-#define NEGATIVE_TRESHOLD 120
-#define POSITIVE_TRESHOLD 140
+#define NEGATIVE_TRESHOLD 90
+#define POSITIVE_TRESHOLD 170
 
 typedef struct{
 	int x;
 	int y;
 } position;
 
-typedef enum{LEFT, RIGHT, UP, DOWN, NEUTRAL}direction;
+typedef enum{NEUTRAL = 0, LEFT, RIGHT, UP, DOWN} direction;
 
 // Returns the position of the joystick as a struct
 // contains x and y value
-position joystickPos();
 
 int offsetX;
 int offsetY;
+
+typedef struct{
+	char x;
+	char y;
+} final_direction;
 
 // Returns direction of the joystick as an enum value
 direction joystickDirX();
