@@ -11,38 +11,48 @@
 #include "drivers/crystal.h"
 #include "drivers/UART.h"
 #include "drivers/CAN.h"
-#include "drivers/MCP2515.h"
+#include "drivers/Servo.h"
 
-
-
+volatile uint8_t CAN_received = 0;
+CANmessage received;
+joystick_position joy_pos;
 
 int main(void){
 	//Initialization of UART module
 	UART_init();
 	
+	//Initialization of CAN module
 	SPI_MasterInit();
 	CANInit_normal();
+	
+	//Initialization of PWM module
+	PWM_init();
 	
 	//Enable interrupts
 	DDRE &= ~(1 << PE4);
 	cli();
 	EIMSK |= (1 << INT4);
 	sei();
-	
-	
-	CANmessage test, returned;
-	test.ID = 0b00000001;
-	test.length = 8;
-	test.data[0] = 5;
-
-	char msg;
 
 	while(1){
-		_delay_ms(500);
+		if(CAN_received == 1){
+			received = CAN_read();
+			printf("We are inside the interrupt! received: %d\n", received.data[0]);
+			joy_pos.y = received.data[0];
+			CAN_received = 0;
+		}
+		
+		
+		
+		
+		if(joy_pos.y > 130 && joy_pos.y < 140){
+			joy_pos.y = 134;
+		}
+		//_delay_us(500);
+		PWM_set_value(joy_pos);
 	}
 }
 
 ISR(INT4_vect){
-	CANmessage received = CAN_read();
-	printf("We are inside the interrupt! received: %i %i\n", received.data[0], received.data[1]);
+	CAN_received = 1;
 }

@@ -52,9 +52,5 @@ void UART_init(){
 	// set frame format
 	UCSR0C = (1 << USBS) | (3 << UCSZ00);
 	
-	// double transmission speed
-	//UCSR0C |= (1 << U2X0);
-	
-	//Recently moved here, does it still work?
 	fdevopen(UARTtransmit, UARTreceive);
 }

@@ -9,12 +9,13 @@
 #include "ADC.h"
 #include "controller.h"
 
-position joystickPos(){ //NB: Channels are a bit undefined as of now
+
+position joystickPos(){
 	position current_position;
 	
 	current_position.x = ADC_read(X_AXIS);
 	current_position.y = ADC_read(Y_AXIS);
-
+	
 	return current_position;
 }
 

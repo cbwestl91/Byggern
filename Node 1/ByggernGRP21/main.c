@@ -74,25 +74,19 @@ int main(void){
 	//printf("CAN message: %i\n", returned.data[0]);
 	CANmessage joystick_info;
 	
-	volatile final_direction dir;
+	volatile position joy_pos;
 	
 	joystick_info.ID = 0b00000000;
-	joystick_info.length = 8;
+	joystick_info.length = 3;
 	
     while(1){
 		//Periodical sending of joystick position
-		dir.x = joystickDirX();
-		dir.y = joystickDirY();
-		
-		printf("%d\n", dir.x);
-		printf("%d\n", dir.y);
-		
-		joystick_info.data[0] = dir.x;
-		joystick_info.data[1] = dir.y;
+		joy_pos = joystickPos();
+		joystick_info.data[0] = joy_pos.y;
+
 		
 		CAN_send(joystick_info);
 		
-		button_pressed = 0;
 		
 		_delay_ms(500);
 	}
