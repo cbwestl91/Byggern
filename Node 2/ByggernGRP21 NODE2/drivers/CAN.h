@@ -19,7 +19,7 @@
 
 
 typedef struct{
-	unsigned int ID;
+	uint8_t ID;
 	unsigned char data[8];
 	uint8_t length;
 } CANmessage;

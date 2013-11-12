@@ -73,7 +73,10 @@ int CAN_send(CANmessage msg){
 	uint8_t buffer = 0;
 
 	if((status & (1 << MCP_STATUS_TXREQ0)) == 0){
-		MCPWrite(TXB0SIDL, msg.ID);
+		//MCPWrite(TXB0SIDL, msg.ID);
+		//MCPWrite(TXB0SIDH, msg.ID);
+		
+//		MCPBitModify(TXB0SIDL, 0b11100000, (msg.ID*0b100000));
 		MCPWrite(TXB0SIDH, msg.ID);
 		
 		MCPWrite(TXB0DLC, msg.length);
@@ -88,20 +91,20 @@ int CAN_send(CANmessage msg){
 		return 0;
 	}
 	else if((status & (1 << MCP_STATUS_TXREQ1)) == 0){
-		MCPWrite(TXB1SIDL, msg.ID);
+//		MCPWrite(TXB1SIDL, msg.ID);
 		MCPWrite(TXB1SIDH, msg.ID);
 		
 		buffer = TXB1D0;
 		for(int i = 0; i < msg.length; i++){
 			MCPWrite(buffer+i, msg.data[i]);
-		}
+		} 
 		
 		MCPRequestToSend(MCP_RTS_TX1);
 		
 		return 0;
 	}
 	else if((status & (1 << MCP_STATUS_TXREQ2)) == 0){
-		MCPWrite(TXB2SIDL, msg.ID);
+//		MCPWrite(TXB2SIDL, msg.ID);
 		MCPWrite(TXB2SIDH, msg.ID);
 		
 		buffer = TXB2D0;

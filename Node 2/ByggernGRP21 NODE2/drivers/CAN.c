@@ -118,18 +118,23 @@ int CAN_send(CANmessage msg){
 }
 
 CANmessage CAN_read(){
-	CANmessage received;
+	volatile CANmessage received;
 	received.length = 8;
-	received.data[0] = 0x00;
 	uint8_t status = MCPReadStatus();
 	
 	if((status & (1 << RX0IF))){
 		printf("CAN received into RX0IF\n");
+		
+		received.ID = MCPRead(MCP_RXB0SIDH);
+		
 		received.data[0] = MCPRead(RXB0DM);
 		MCPBitModify(MCP_CANINTF, 0x01, 0x00);
 		
 	} else if((status & (1 << RX1IF))) {
 		printf("CAN received into RX1IF\n");
+		
+		received.ID = MCPRead(MCP_RXB1SIDH);
+		
 		received.data[0] = MCPRead(RXB1DM);
 		MCPBitModify(MCP_CANINTF, 0x02, 0x00);
 	}

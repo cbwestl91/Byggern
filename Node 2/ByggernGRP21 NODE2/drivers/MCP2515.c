@@ -42,8 +42,6 @@ char MCPRead(char reg){
 	//Transmit desired location
 	SPI_MasterTransmit(reg);
 	
-
-	
 	volatile uint8_t readValue = SPI_MasterRead();
 	
 	MCPChipDeselect();
