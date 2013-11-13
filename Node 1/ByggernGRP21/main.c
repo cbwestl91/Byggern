@@ -77,24 +77,20 @@ int main(void){
 	volatile position joy_pos;
 	
 	
-	joystick_info.length = 8;
+	joystick_info.length = 3;
+	joystick_info.ID = 0x00;
 	
     while(1){
 		//Periodical sending of joystick position
 		joy_pos = joystickPos();
-		joystick_info.ID = 0x00;
 		joystick_info.data[0] = joy_pos.y;
-
+		joystick_info.data[1] = joy_pos.x;
+		joystick_info.data[2] = button_pressed;
+		button_pressed = 0;
+		
 		CAN_send(joystick_info);
-		printf("Sent CAN with ID: %i\n", joystick_info.ID);
 		
 		_delay_ms(50);
-		
-	/*	joystick_info.ID = 0xFF;
-		joystick_info.data[0] = joy_pos.x;
-		CAN_send(joystick_info);
-		printf("Sent CAN with ID: %i\n", joystick_info.ID);
-		*/
 	}
 	
 	return 0;

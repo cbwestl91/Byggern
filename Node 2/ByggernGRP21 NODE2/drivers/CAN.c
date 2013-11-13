@@ -63,6 +63,8 @@ void CANInit_normal(){
 
 	//Enable interrupt on receive
 	MCPBitModify(MCP_CANINTE, MCP_RX_INT, MCP_RX_INT);
+	
+	
 }
 
 int CAN_send(CANmessage msg){
@@ -118,26 +120,34 @@ int CAN_send(CANmessage msg){
 }
 
 CANmessage CAN_read(){
+	
 	volatile CANmessage received;
-	received.length = 8;
 	uint8_t status = MCPReadStatus();
 	
 	if((status & (1 << RX0IF))){
 		printf("CAN received into RX0IF\n");
 		
+		received.length = (0x0F & MCPRead(RXB0DLC));
 		received.ID = MCPRead(MCP_RXB0SIDH);
 		
-		received.data[0] = MCPRead(RXB0DM);
+		for(int i = 0; i < received.length; i++){
+			received.data[i] = MCPRead(RXB0DM + i);
+		}		
 		MCPBitModify(MCP_CANINTF, 0x01, 0x00);
 		
 	} else if((status & (1 << RX1IF))) {
 		printf("CAN received into RX1IF\n");
 		
+		received.length = (0x0F & MCPRead(RXB1DLC));
 		received.ID = MCPRead(MCP_RXB1SIDH);
 		
-		received.data[0] = MCPRead(RXB1DM);
+		for(int i = 0; i < received.length; i++){
+			received.data[i] = MCPRead(RXB1DM + i);
+		}
 		MCPBitModify(MCP_CANINTF, 0x02, 0x00);
 	}
+	
+	status = MCPRead(MCP_CANINTF);
 	
 	return received;
 }

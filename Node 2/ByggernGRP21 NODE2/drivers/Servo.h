@@ -13,9 +13,12 @@
 #define max_control 255
 #define min_control 0
 
-typedef struct{
+#define margin 5
+
+typedef struct {
 	uint8_t x;
 	uint8_t y;
+	uint8_t button_pressed;
 } joystick_position;
 
 void PWM_init();
