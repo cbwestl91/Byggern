@@ -51,7 +51,7 @@ void motor_send(joystick_position joy_pos){
 	if(motor_speed<0){
 		motor_speed=-motor_speed;
 	}
-	printf("Motorspeed: %i", motor_speed);
+
 	if(joy_pos.x < 128 - slack){
 		PORTA &= ~(1 << PA3);
 		motor_set_DAC_output(motor_speed);

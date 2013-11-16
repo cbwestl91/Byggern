@@ -147,7 +147,5 @@ CANmessage CAN_read(){
 		MCPBitModify(MCP_CANINTF, 0x02, 0x00);
 	}
 	
-	status = MCPRead(MCP_CANINTF);
-	
 	return received;
 }

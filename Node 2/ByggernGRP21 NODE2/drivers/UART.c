@@ -53,4 +53,5 @@ void UART_init(){
 	UCSR0C = (1 << USBS) | (3 << UCSZ00);
 	
 	fdevopen(UARTtransmit, UARTreceive);
+
 }

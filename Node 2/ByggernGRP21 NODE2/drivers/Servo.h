@@ -13,7 +13,7 @@
 #define max_control 255
 #define min_control 0
 
-#define margin 5
+#define margin 20
 
 typedef struct {
 	uint8_t x;

@@ -17,7 +17,8 @@
 #include "drivers/Solenoid.h"
 
 volatile uint8_t CAN_received = 0;
-CANmessage received;
+volatile CANmessage received;
+volatile CANmessage message;
 joystick_position joy_pos;
 
 int main(void){
@@ -50,36 +51,35 @@ int main(void){
 	
 	
 	while(1){
-		while(CAN_received > 0){
-			CAN_received--;
+		cli();
+		while(CAN_received > 0){ //If updated controller info is ready, read it into our struct
+			CAN_received = 0;
 			received = CAN_read();
 			joy_pos.y = received.data[0];
 			joy_pos.x = received.data[1];
 			joy_pos.button_pressed = received.data[2];
-
-			//printf("received Y: %d X: %d \n", received.data[0], received.data[1]);
-			
-			if(joy_pos.y > 128 - margin && joy_pos.y < 128 + margin){
-				joy_pos.y = 128;
+			printf("RECEIVED MESSAGE HAD INFO ABOUT BUTTON: %d\n", joy_pos.button_pressed);
 			}
-			PORTE |= (1 << PE2);
+		sei();
 			
-			_delay_ms(50);
-			
-			
-			
-			PWM_set_value(joy_pos); //update servo
-			motor_send(joy_pos); //update motor
-			
-			
-			/*if(joy_pos.button_pressed){
-				solenoid_pulse();
-			}*/
-			
+		//Use information available to control PWM, motor and solenoid
+		if(joy_pos.y > 128 - margin && joy_pos.y < 128 + margin){
+			joy_pos.y = 128;
 		}
+			
+		if(joy_pos.button_pressed){
+			printf("APPLIED A PULSE!\n");
+			solenoid_pulse(); //Apply solenoid pulse
+			joy_pos.button_pressed = 0;
+		}
+		
+			
+		PWM_set_value(joy_pos); //update servo
+		motor_send(joy_pos); //update motor
+	
 	}
 }
 
 ISR(INT4_vect){
-	CAN_received++;
+	CAN_received = 1;
 }

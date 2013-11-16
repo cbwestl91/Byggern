@@ -15,9 +15,7 @@ void solenoid_init(){
 }
 
 void solenoid_pulse(){
-	PORTE |= (1 << PE2);
-	
-	_delay_ms(20);
-	
 	PORTE &= ~(1 << PE2);
-	}
+	_delay_ms(500);
+	PORTE |= (1 << PE2);
+}
