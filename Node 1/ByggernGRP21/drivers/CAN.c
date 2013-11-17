@@ -5,10 +5,11 @@
  *  Author: chriwes
  */ 
 
+#include <stdio.h>
 #include <avr/io.h>
+
 #include "MCP2515.h" //This header file contains MCP2515 register definitions
 #include "CAN.h"
-
 
 void CANInit_loopback(){
 	MCPReset();

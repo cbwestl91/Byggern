@@ -5,11 +5,13 @@
  *  Author: chriwes
  */ 
 
+#include "drivers/crystal.h"
+
 #include <stdio.h>
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#include <avr/delay.h>
-#include "drivers/crystal.h"
+#include <util/delay.h>
+
 #include "drivers/UART.h"
 #include "drivers/CAN.h"
 #include "drivers/Servo.h"
@@ -19,7 +21,7 @@
 volatile uint8_t CAN_received = 0;
 volatile CANmessage received;
 volatile CANmessage message;
-joystick_position joy_pos;
+volatile joystick_position joy_pos;
 
 int main(void){
 	//Initialization of UART module
@@ -52,7 +54,7 @@ int main(void){
 	
 	while(1){
 		cli();
-		while(CAN_received > 0){ //If updated controller info is ready, read it into our struct
+		while(CAN_received != 0){ //If updated controller info is ready, read it into our struct
 			CAN_received = 0;
 			received = CAN_read();
 			joy_pos.y = received.data[0];
@@ -68,8 +70,8 @@ int main(void){
 		}
 			
 		if(joy_pos.button_pressed){
-			printf("APPLIED A PULSE!\n");
 			solenoid_pulse(); //Apply solenoid pulse
+			printf("APPLIED A PULSE!\n");
 			joy_pos.button_pressed = 0;
 		}
 		

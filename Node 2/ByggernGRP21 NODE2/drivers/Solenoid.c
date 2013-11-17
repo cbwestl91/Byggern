@@ -5,8 +5,10 @@
  *  Author: chriwes
  */
 
+#include "crystal.h"
+
 #include <avr/io.h>
-#include <avr/delay.h>
+#include <util/delay.h>
 
 void solenoid_init(){
 	DDRE |= (1 << PE2);
@@ -16,6 +18,8 @@ void solenoid_init(){
 
 void solenoid_pulse(){
 	PORTE &= ~(1 << PE2);
+	
 	_delay_ms(500);
+	
 	PORTE |= (1 << PE2);
 }

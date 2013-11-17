@@ -4,14 +4,13 @@
  * Created: 11.09.2013 12:43:56
  *  Author: chriwes
  */ 
-#include <avr/io.h>
 
 #define F_CPU 4915200UL
 
+#include <avr/io.h>
 #include <util/delay.h>
 
 void ADCTest(){
-	
 	// THIS DOESN'T REALLY TEST ANYTHING
 	// only used for checking voltage response of output pins
 	volatile char *ext_adc = (char *) 0x1400;
