@@ -15,6 +15,7 @@ position joystickPos(){
 	
 	current_position.x = ADC_read(X_AXIS);
 	current_position.y = ADC_read(Y_AXIS);
+	current_position.button_pressed = ADC_read(BUTTON);
 	
 	return current_position;
 }

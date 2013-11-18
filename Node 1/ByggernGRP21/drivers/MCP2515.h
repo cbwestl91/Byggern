@@ -205,6 +205,12 @@ Copyright 2003 Kimberly Otten Software Consulting
 
 #define RXB0DM 0x66
 #define RXB1DM 0x76
+#define RXB0DLC 0x65
+#define RXB1DLC 0x75
+#define DLC3 3
+#define DLC2 2
+#define DLC1 1
+#define DLC0 0
 
 //Control pins for MCP2515
 #define MCP_CHIPSELECT PB4

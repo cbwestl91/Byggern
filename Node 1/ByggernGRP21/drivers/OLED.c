@@ -179,6 +179,9 @@ void oled_welcome(){
 }
 
 int oled_navigate(){
+	volatile position joy_pos;
+	joy_pos.button_pressed = 150;
+	
 	oled_clear_screen();
 	
 	/*FIRST MENU*/
@@ -196,7 +199,6 @@ int oled_navigate(){
 	int arrow = menu_entry_one;
 	int prev_arrow;
 	int navigation_counter = 999;
-	int navigator;
 	int started = 0;
 	
 
@@ -269,7 +271,9 @@ int oled_navigate(){
 		}
 		
 		//Handle button presses
-		if(button_pressed){
+		joy_pos = joystickPos();
+		
+		if(joy_pos.button_pressed < button_margin){
 			if(arrow == menu_entry_one){
 				started = 1; //A game request has been received, so we should stop interfacing
 				//TODO: Print some information about the game

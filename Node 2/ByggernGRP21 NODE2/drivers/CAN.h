@@ -29,5 +29,6 @@ void CANInit_normal();
 
 int CAN_send(CANmessage msg);
 CANmessage CAN_read();
+void CAN_reset();
 
 #endif /* CAN_H_ */

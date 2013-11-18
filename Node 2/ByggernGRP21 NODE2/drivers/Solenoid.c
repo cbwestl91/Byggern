@@ -13,13 +13,13 @@
 void solenoid_init(){
 	DDRE |= (1 << PE2);
 	
-	PORTE &= ~(1 << PE2);
+	PORTE |= (1 << PE2);
 }
 
 void solenoid_pulse(){
 	PORTE &= ~(1 << PE2);
 	
-	_delay_ms(500);
+	_delay_ms(100);
 	
 	PORTE |= (1 << PE2);
 }

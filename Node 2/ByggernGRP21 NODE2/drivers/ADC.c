@@ -27,7 +27,7 @@ int ADC_read(){
 	
 	int result = ADC;
 	
-	printf("ADC read as: %d\n", result);
+	//printf("ADC read as: %d\n", result);
 	
 	return result;
 }

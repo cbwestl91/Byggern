@@ -16,6 +16,7 @@
 
 #define Y_AXIS 1
 #define X_AXIS 2
+#define BUTTON 3
 
 // Defines for when we regard position to be negative or positive
 #define NEGATIVE_TRESHOLD 90
@@ -24,6 +25,7 @@
 typedef struct{
 	uint8_t x;
 	uint8_t y;
+	uint8_t button_pressed;
 } position;
 
 typedef enum{NEUTRAL, LEFT, RIGHT, UP, DOWN} direction;
@@ -38,6 +40,7 @@ int offsetY;
 position joystickPos();
 direction joystickDirX();
 direction joystickDirY();
+
 
 void autoCal();
 

@@ -5,6 +5,7 @@
  *  Author: chriwes
  */ 
 
+#include <stdio.h>
 #include <avr/io.h>
 #include "MCP2515.h" //This header file contains MCP2515 register definitions
 #include "CAN.h"
@@ -135,7 +136,7 @@ CANmessage CAN_read(){
 		}		
 		MCPBitModify(MCP_CANINTF, 0x01, 0x00);
 		
-	} else if((status & (1 << RX1IF))) {
+	} else if((status & (1 << RX1IF))) {	
 		printf("CAN received into RX1IF\n");
 		
 		received.length = (0x0F & MCPRead(RXB1DLC));
@@ -148,4 +149,8 @@ CANmessage CAN_read(){
 	}
 	
 	return received;
+}
+
+void CAN_reset(){
+	MCPBitModify(MCP_CANINTF, 0x03, 0x00);
 }

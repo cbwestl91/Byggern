@@ -16,7 +16,8 @@
 
 #define arrow_column 5
 
-volatile int button_pressed; //Variable set by interrupt
+#define button_margin 20
+volatile int button_pressed;
 
 void oled_init();
 
