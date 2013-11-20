@@ -38,6 +38,6 @@ void oled_game_over();
 int oled_navigate();
 int oled_submenu1();
 
-void oled_rick();
+void oled_roll();
 
 #endif /* OLED_H_ */

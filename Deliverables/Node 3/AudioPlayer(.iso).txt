@@ -1,0 +1,86 @@
+/*
+This module is controlling the audio player. It gets a 3bit code from the Atmega162 via 
+parallell interface. The 3bit code corresponds to a song on the SD card. 
+*/
+#include <sd_l0.h>
+#include <sd_l1.h>
+#include <sd_l2.h>
+#include <SimpleSDAudio.h>
+#include <SimpleSDAudioDefs.h>
+
+//Defines the input pins
+#define M0 5
+#define M1 6
+#define M2 7
+
+int code; //Integer that carries the inputs
+
+int input[3]; //Array that contains the input bits
+
+char audioSongs[16][16]={
+  "SILENCE", // Silence is a dummy file. 
+  "MENU.afm",
+  "POKEMON.afm",
+  "MARIO.afm",
+  "ZELDA.afm",
+  "GAMEOVER.afm",
+  "ROLL.afm",
+};
+
+int songNr; //Song counter
+
+
+
+void setup(){
+  //Setting communication pins to input
+  pinMode(M0, INPUT);
+  pinMode(M1, INPUT);
+  pinMode(M2, INPUT);
+ 
+  // Initilize serial communication //
+  Serial.begin(9600);
+
+  
+  /*Initilaize music player and SDcard */
+  if(!SdPlay.init(SSDA_MODE_HALFRATE | SSDA_MODE_MONO | SSDA_MODE_AUTOWORKER)){
+    Serial.println("Initialization failed!");
+  }
+  Serial.println("Initialization done!...");
+  
+  //Set song 0 as default//
+  songNr=0;
+  
+}
+
+void loop(){
+ playSong(songNr);
+      
+}
+
+void playSong(int nr){
+  Serial.println(songNr);
+  SdPlay.stop();
+  SdPlay.setFile(audioSongs[songNr]);
+  SdPlay.play();
+  if(songNr==0){ // If no song, not necessary to open a file. Read pins untill a valid code is recieved
+    readPins();
+    songNr=code;
+  }
+  while(!SdPlay.isStopped()){
+      readPins();
+      Serial.println(code);
+      if(code!=songNr){ // If song is changed, set current song to new song, and stop playing. 
+        songNr = code;
+        break;
+      }
+   Serial.println(code);
+    }
+  }
+
+void readPins(){
+  input[0] = digitalRead(M0);
+  input[1] = digitalRead(M1);
+  input[2] = digitalRead(M2);
+  code = input[0] | (input[1] << 1) | (input[2] << 2);
+
+}

@@ -12,6 +12,7 @@
 
 #include "font_5x7.h"
 #include "font_8x8.h"
+#include "roll.h"
 #include "OLED.h"
 #include "controller.h"
 #include "sound.h"
@@ -414,37 +415,17 @@ void oled_submenu2(){
 	
 	oled_clear_screen();
 	
-	/*FIRST MENU*/
-	
-	// header
-	char header[] = "YOU ARE TRAPPED!";
-	// entry one
-	char entry1[] = "NEVER";
-	// entry two
-	char entry2[] = "GONNA";
-	// entry three
-	char entry3[] = "GIVE YOU UP";
+	oled_roll();
 	
 	// arrow starts on entry one. Movement of joystick along Y axis changes this
 	int arrow = menu_entry_one;
 	int prev_arrow;
 	int navigation_counter = 999;
 	int started = 0;
-	
-	//Define menu pointer
-	oled_pos(menu_entry_one, arrow_column);
-	oled_print("<<");
+
 	sound_play(ROLL);
 	
 	while(!started){
-		oled_goto_line(menu_header);
-		oled_print(header);
-		oled_goto_line(menu_entry_one);
-		oled_print(entry1);
-		oled_goto_line(menu_entry_two);
-		oled_print(entry2);
-		oled_goto_line(menu_entry_three);
-		oled_print(entry3);
 		
 		if(joystickDirY() != NEUTRAL){
 			navigation_counter++;
@@ -470,15 +451,6 @@ void oled_submenu2(){
 					arrow++;
 				}
 			}
-			
-			oled_goto_line(prev_arrow);
-			oled_clear_line();
-			
-			oled_goto_line(arrow);
-			
-			oled_changeColumn(arrow_column);
-			oled_print("<<");
-			oled_changeColumn(0);
 
 			navigation_counter++;
 		}
@@ -495,4 +467,22 @@ void oled_submenu2(){
 	}
 }
 return 0;
+}
+
+void oled_roll(){
+	int i;
+	int j=0;
+	int counter = 0;
+	oled_goto_line(0);
+	for(i = 0; i<1024;i++){
+		write_d(pgm_read_byte(&rickroll[i]));
+		if(j==127){
+			counter++;
+			oled_goto_line(counter);
+			j=0;
+		}
+		j++;
+		
+		
+	}
 }

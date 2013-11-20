@@ -131,6 +131,9 @@
     <Compile Include="drivers\OLED.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="drivers\roll.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="drivers\sound.c">
       <SubType>compile</SubType>
     </Compile>
