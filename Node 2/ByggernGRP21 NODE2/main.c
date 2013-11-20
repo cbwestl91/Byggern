@@ -131,7 +131,7 @@ int main(void){
 				joy_pos.button_pressed = 0;
 			}
 			
-			if(some_other_counter > 10){
+			if(some_other_counter > 5){
 				solenoid_pull();
 			}
 			/**********************************************************/
@@ -142,7 +142,7 @@ int main(void){
 			if(ADC_check_goal()){ //Evaluates to 1 if goal is detected
 				some_counter++;
 				
-				if(some_counter == 20){
+				if(some_counter == 5){
 					some_counter = 0;
 					game_over = 1; //Start procedure all over
 					CAN_reset();

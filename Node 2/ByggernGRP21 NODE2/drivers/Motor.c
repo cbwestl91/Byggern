@@ -47,7 +47,7 @@ void motor_set_DAC_output(uint8_t motor_speed){
 }
 
 void motor_send(joystick_position joy_pos){
-	int motor_speed = 2*joy_pos.x-128;
+	int motor_speed = joy_pos.x-128;
 	if(motor_speed<0){
 		motor_speed=-motor_speed;
 	}
